@@ -1,9 +1,0 @@
-{application,utilities,
-             [{applications,[kernel,stdlib,elixir,logger]},
-              {description,"utilities"},
-              {modules,['Elixir.Utilities','Elixir.Utilities.Datetime',
-                        'Elixir.Utilities.Enum','Elixir.Utilities.Logic',
-                        'Elixir.Utilities.Map','Elixir.Utilities.String']},
-              {registered,[]},
-              {vsn,"0.1.0"},
-              {extra_applications,[logger]}]}.
