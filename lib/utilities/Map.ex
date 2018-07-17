@@ -4,6 +4,55 @@ defmodule Utilities.Map do
   """
 
   @doc """
+  Convert map  camelCase string keys to underscore string keys
+  """
+  def to_underscore_keys(nil), do: nil
+
+  def to_underscore_keys(map = %{}) do
+    map
+    |> Enum.map(fn {k, v} ->
+      k = k |> Inflex.underscore()
+      v = v |> to_underscore_keys()
+      {k, v}
+    end)
+    |> Enum.into(%{})
+  end
+
+  # Walk the list and atomize the keys of
+  # of any map members
+  def to_underscore_keys([head | rest]) do
+    [to_underscore_keys(head) | to_underscore_keys(rest)]
+  end
+
+  def to_underscore_keys(not_a_map) do
+    not_a_map
+  end
+
+  @doc """
+  Convert map underscore string keys to camelCase string keys
+  """
+  def to_camelcase_keys(nil), do: nil
+
+  def to_camelcase_keys(map = %{}) do
+    map
+    |> Enum.map(fn {k, v} ->
+      k = k |> Inflex.camelize(:lower)
+      {k, to_camelcase_keys(v)}
+    end)
+    |> Enum.into(%{})
+  end
+
+  # Walk the list and atomize the keys of
+  # of any map members
+  def to_camelcase_keys([head | rest]) do
+    [to_camelcase_keys(head) | to_camelcase_keys(rest)]
+  end
+
+  def to_camelcase_keys(not_a_map) do
+    not_a_map
+  end
+
+  @doc """
   Returns the map with the keys in kmap renamed to the vals in kmap
 
   ## Examples
